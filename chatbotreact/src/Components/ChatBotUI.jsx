@@ -14,7 +14,7 @@ export default function ChatBotUI() {
   return (
     <div
       className={`
-        border-4 border-red-500           /* always show red border, even on mobile */
+                  
         flex flex-col md:flex-row         /* mobile: column, md+: row */
         h-screen
         ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-900'}
