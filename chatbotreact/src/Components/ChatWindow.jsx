@@ -1,5 +1,4 @@
 // src/components/ChatWindow.jsx
-
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
@@ -137,7 +136,7 @@ export default function ChatWindow({ darkMode }) {
     }
   };
 
-  // Custom Markdown renderers for better readability
+  // Custom Markdown renderers
   const markdownComponents = {
     h1: ({ node, ...props }) => <h1 className="text-2xl font-extrabold my-2" {...props} />,
     h2: ({ node, ...props }) => <h2 className="text-xl font-bold my-1.5" {...props} />,
@@ -162,14 +161,17 @@ export default function ChatWindow({ darkMode }) {
 
   return (
     <div
-      className={`flex flex-col flex-1 h-full overflow-hidden transition-colors duration-300 ${
-        darkMode ? 'bg-gray-900' : 'bg-gray-50'
-      }`}
+      className={`
+        relative                  /* establishes positioning context */
+        flex flex-col flex-1 h-full
+        transition-colors duration-300
+        ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}
+      `}
     >
-      {/* Message List */}
+      {/* Message List: fills all space above the input bar and scrolls */}
       <div
         ref={containerRef}
-        className="flex-1 overflow-auto px-0 py-4 space-y-8 pb-28 scroll-smooth"
+        className="absolute inset-x-0 top-0 bottom-16 px-0 py-4 overflow-auto space-y-8 scroll-smooth"
       >
         {messages.map((m, i) => {
           const incoming = m.from === 'bot';
@@ -224,10 +226,7 @@ export default function ChatWindow({ darkMode }) {
                       <button className="hover:scale-110 transform transition duration-200">
                         <FaEllipsisH className="hover:text-gray-500" />
                       </button>
-                      {i ===
-                        messages
-                          .map((x) => x.from)
-                          .lastIndexOf('bot') && (
+                      {i === messages.map((x) => x.from).lastIndexOf('bot') && (
                         <button
                           onClick={regenerateResponse}
                           className={`ml-4 px-3 py-1 rounded-full text-xs font-medium flex items-center gap-2 transition duration-200 ${
@@ -248,11 +247,13 @@ export default function ChatWindow({ darkMode }) {
         })}
       </div>
 
-      {/* Input Bar */}
+      {/* Input Bar: fixed height and always at the bottom */}
       <div
-        className={`flex-shrink-0 flex items-center px-6 py-3 border-t backdrop-blur-md bg-opacity-80 z-10 ${
-          darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
-        }`}
+        className={`
+          absolute bottom-0 inset-x-0 h-16
+          flex items-center px-6 border-t backdrop-blur-md bg-opacity-80 z-20
+          ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}
+        `}
       >
         <button className="p-3 rounded-full hover:bg-gray-200 transition duration-200">
           <FaPaperclip
@@ -266,7 +267,7 @@ export default function ChatWindow({ darkMode }) {
         </button>
         <input
           type="text"
-          className={`flex-1 mx-4 min-w-0 px-6 py-3 border rounded-full focus:outline-none focus:ring-2 transition-all duration-200 shadow-sm ${
+          className={`flex-1 mx-4 min-w-0 h-[2.5rem] px-6 border rounded-full focus:outline-none focus:ring-2 transition-all duration-200 shadow-sm ${
             darkMode
               ? 'bg-gray-700 border-gray-600 text-gray-200 focus:ring-blue-400 placeholder:text-gray-500'
               : 'bg-gray-100 border-gray-300 text-gray-900 focus:ring-blue-300 placeholder:text-gray-500'

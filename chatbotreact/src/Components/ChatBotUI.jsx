@@ -14,8 +14,7 @@ export default function ChatBotUI() {
   return (
     <div
       className={`
-                  
-        flex flex-col md:flex-row         /* mobile: column, md+: row */
+        flex flex-col md:flex-row
         h-screen
         ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-900'}
       `}
@@ -27,11 +26,12 @@ export default function ChatBotUI() {
 
       {/* Main chat area */}
       <div className="flex flex-col flex-1">
-        {/* Header */}
+        {/* Header: sticky on mobile, static on md+ */}
         <div
           className={`
+            sticky md:static top-0 z-20
             flex items-center justify-between
-            px-2 sm:px-4   /* less padding on smallest screens */
+            px-2 sm:px-4
             py-2 sm:py-3
             ${darkMode ? 'bg-gray-800' : 'bg-white'}
             shadow
